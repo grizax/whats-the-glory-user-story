@@ -1,2 +1,8 @@
-# whats-the-glory-user-story
-User Story app using Node.js, MongoDB, and Javascript
+# Whats-the-glory-user-story
+
+User Story app using:
+
+	* Node.js 
+	* MongoDB
+	* Javascript
+	* React
