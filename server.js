@@ -22,11 +22,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(morgan('dev'));;
 
+// Any static files will be rendered by Express
+app.use(express.static(__dirname + '/public'));
+
 // testing API (calling app & express params)
 var api = require('./app/routes/api')(app, express);
 app.use('/api', api);
+
 app.get('*', function(req, res) {
-	res.sendFile(__dirname + '/public/views/index.html');
+	res.sendFile(__dirname + '/public/app/views/index.html');
 
 });
 

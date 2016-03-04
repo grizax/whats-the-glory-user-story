@@ -160,7 +160,11 @@ module.exports = function(app, express) {
 			});
 		});
 
-	return api 
+	api.get('/me', function(req, rest) {
+		res.json(req.decoded);
 
+	});
+
+	return api 
 
 }

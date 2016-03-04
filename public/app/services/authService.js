@@ -37,4 +37,65 @@ angular.module('authService', [])
 		else
 			return $q.reject({ message: "User has no token"});
 	}
+
+	return authFactory;
+})
+
+
+// Get token from browser
+
+.factory('AuthToken', function($window) {
+
+	var authTokenFactory = {};
+
+	authTokenFactory.getToken = function() {
+		return $window.localStorage.getItem('token');
+
+	}
+
+	authTokenFactory.setToken = function(token) {
+
+		if(token)
+			$window.localStorage.setItem('token', token);
+		else
+			$window.localStorage.removeItem('token');
+
+	}
+
+	return authTokenFactory;
+
+
+})
+
+// Check if Token exists
+
+.factory('AuthInterceptor', function($q, $location, AuthToken) {
+
+	var interceptorFactory = {};
+
+	interceptorFactory.request = function(config) {
+
+		var token = AuthToken.getToken();
+
+		if(token) {
+
+			config.headers['x-access-token'] = token;
+
+		}
+
+		return config;
+	};
+
+	// Error handling if no token exists
+
+	interceptorFactory.responseError = function(response) {
+
+		if(response.status == 403)
+			$location.path('/login');
+
+		return $q.reject(response);
+	}
+
+	return interceptorFactory;
+	
 })
